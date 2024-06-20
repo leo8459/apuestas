@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("ssi", $nombre, $contraseña, $es_admin);
 
     if ($stmt->execute()) {
-        echo "Registro exitoso. Puedes <a href='login.php'>iniciar sesión</a> ahora.";
+        header("Location: login.php");
+        exit;
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -34,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="nombre">Nombre Completo:</label>
             <input type="text" id="nombre" name="nombre" required>
             <label for="contraseña">Contraseña:</label>
-            <input type="text" id="contraseña" name="contraseña" required>
+            <input type="password" id="contraseña" name="contraseña" required>
             <button type="submit">Registrarse</button>
         </form>
 
