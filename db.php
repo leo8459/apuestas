@@ -1,6 +1,6 @@
 <?php
 $servername = "172.65.10.52";
-$username = "agbc";
+$username = "root";
 $password = "agbc";
 $dbname = "apuestas_db";
 
