@@ -1,7 +1,7 @@
 <?php
 $servername = "172.65.10.52";
 $username = "root";
-$password = "agbc";
+$password = "";
 $dbname = "apuestas_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
