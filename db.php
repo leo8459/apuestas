@@ -1,5 +1,5 @@
 <?php
-$servername = "172.65.10.52";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "apuestas_db";
