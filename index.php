@@ -8,8 +8,15 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 $hoy = date('Y-m-d');
-$result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
+$manana = date('Y-m-d', strtotime($hoy . ' +1 day'));
+$hora_limite = '01:00:00';
+
+// Consulta SQL para seleccionar partidos desde medianoche de hoy hasta la 1 AM de mañana
+$query = "SELECT * FROM partidos WHERE fecha BETWEEN '$hoy 00:00:00' AND '$manana $hora_limite'";
+
+$result = $conn->query($query);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
