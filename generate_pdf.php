@@ -117,7 +117,7 @@ if (isset($_GET['apuesta_ids'])) {
    $pdf->SetFont('helvetica', 'B', 10);
    $pdf->SetFillColor(200, 220, 255);
    $pdf->Cell(10, 10, 'ID', 1, 0, 'C', 1);
-   $pdf->Cell(30, 10, 'Usuario', 1, 0, 'C', 1);
+   $pdf->Cell(60, 10, 'Usuario', 1, 0, 'C', 1);
    $pdf->Cell(60, 10, 'Partido', 1, 0, 'C', 1);
    $pdf->Cell(20, 10, 'Resultado', 1, 0, 'C', 1);
    $pdf->Cell(40, 10, 'Fecha', 1, 1, 'C', 1); // Nueva columna para la fecha
@@ -128,7 +128,7 @@ if (isset($_GET['apuesta_ids'])) {
    $fill = 0;
    foreach ($apuestas as $row) {
        $pdf->Cell(10, 10, $row['apuesta_id'], 1, 0, 'C', $fill);
-       $pdf->Cell(30, 10, $row['usuario_nombre'], 1, 0, 'C', $fill);
+       $pdf->Cell(60, 10, $row['usuario_nombre'], 1, 0, 'C', $fill);
        $pdf->Cell(60, 10, $row['equipo_local'] . ' vs ' . $row['equipo_visitante'], 1, 0, 'C', $fill);
        $pdf->Cell(10, 10, $row['prediccion_equipo1'], 1, 0, 'C', $fill);
        $pdf->Cell(10, 10, $row['prediccion_equipo2'], 1, 0, 'C', $fill);
