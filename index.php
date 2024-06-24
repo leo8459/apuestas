@@ -18,6 +18,11 @@ $result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
     <title>Realizar Apuesta</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .policies-container {
+            color: black; /* Asegurar que el texto dentro de .policies-container sea negro */
+        }
+    </style>
 </head>
 <body class="background-image">
     <div class="header">
@@ -72,14 +77,14 @@ $result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
         <ol>
             <li>Todos los funcionarios que lo deseen pueden participar sin restricción alguna en la fase de grupos.</li>
             <li>Se realizará el cobro único por fecha, indiferente a la cantidad de partidos que se juegue.</li>
-            <li>Para participar en los partidos de cuartos de final, el requisito principal es haber jugado el 90% en la fase de grupos .</li>
+            <li>Para participar en los partidos de cuartos de final, el requisito principal es haber jugado el 90% en la fase de grupos.</li>
             <li>Para participar en los partidos de semifinal, el requisito principal es haber jugado el 100% en la fase de cuartos de final.</li>
             <li>Para participar en los partidos de la final, el requisito principal es haber jugado el 100% en la fase semifinal.</li>
         </ol>
         <p>Las apuestas son en bolivianos y el monto será según el siguiente orden:</p>
         <ul>
             <li>5 bs por fecha en las fases de grupo.</li>
-            <li>10 bs por fecha para participar en los 4tvos.</li>
+            <li>10 bs por fecha para participar en 4tvos.</li>
             <li>15 bs por fecha para participar en semifinales.</li>
             <li>20 bs por fecha para participar en la final.</li>
         </ul>
