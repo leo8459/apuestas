@@ -1,0 +1,34 @@
+<div class="policies-container">
+        <h2>POLÍTICAS DEL JUEGO</h2>
+        <ol>
+            <li>Todos los funcionarios que lo deseen pueden participar sin restricción alguna en la fase de grupos.</li>
+            <li>Se realizará el cobro único por fecha, indiferente a la cantidad de partidos que se juegue.</li>
+            <li>Para participar en los partidos de cuartos de final, el requisito principal es haber jugado el 90% en la fase de grupos .</li>
+            <li>Para participar en los partidos de semifinal, el requisito principal es haber jugado el 100% en la fase de cuartos de final.</li>
+            <li>Para participar en los partidos de la final, el requisito principal es haber jugado el 100% en la fase semifinal.</li>
+        </ol>
+        <p>Las apuestas son en bolivianos y el monto será según el siguiente orden:</p>
+        <ul>
+            <li>5 bs por fecha en las fases de grupo.</li>
+            <li>10 bs por fecha para participar en los 4tvos.</li>
+            <li>15 bs por fecha para participar en semifinales.</li>
+            <li>20 bs por fecha para participar en la final.</li>
+        </ul>
+        <p><strong>NOTA 1:</strong> Las apuestas se realizan por fecha, en caso que hubiera dos o más partidos en un día, el monto de la apuesta será la misma (Ejemplo: solo 5 bs para dos partidos).</p>
+        <p><strong>NOTA 2:</strong> Se tiene que tomar en cuenta que para ganar tienen que acertar el “score” de uno o todos los partidos en determinada fecha.</p>
+        <ol start="7">
+            <li>El o los ganadores podrán recoger su premio al día siguiente en acto público.</li>
+            <li>Las apuestas se recibirán hasta una hora antes del primer partido de cada fecha.</li>
+            <li>Solo podrán participar una vez por fecha (cuenta ya sea 1 o más partidos).</li>
+            <li>En caso de no existir ganadores a una determinada fecha, el monto recaudado por todas las apuestas se ira acumulando hasta el ganador de la siguiente fecha.</li>
+            <li>En caso de que hubiera varios ganadores, el premio se dividirá de manera equitativa.</li>
+            <li>Si al final del campeonato no hubiera ganadores, el monto acumulado será dispuesto para un compartimiento entre todos los participantes desde la 8va fecha (modo a definir).</li>
+            <li>Procedimiento:</li>
+            <ul>
+                <li>Ingresar al link (QR)</li>
+                <li>Realizar la apuesta.</li>
+                <li>Deberá dirigirse a sistemas para validar su apuesta y recibir su hoja de apuesta.</li>
+                <li>Deberá dirigirse hacia Alison para realizar el pago de la apuesta con su ticket.</li>
+            </ul>
+        </ol>
+    </div>

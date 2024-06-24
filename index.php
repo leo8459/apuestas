@@ -18,22 +18,13 @@ $result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
     <title>Realizar Apuesta</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .policies-container {
-            color: black;
-            background-color: white; /* Puedes ajustar el fondo si es necesario */
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body class="background-image">
     <div class="header">
         <h1>Realizar Apuesta</h1>
     </div>
     <div class="container">
-        <form method="post" action="generate_pdf.php" id="apuestas_form">
+        <form method="post" id="apuestas_form">
             <div id="apuestas_container">
                 <div class="apuesta">
                     <div class="apuesta-top">
@@ -73,10 +64,9 @@ $result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
         </div>
     </div>
     <div class="image-container">
-        <!-- <img src="src/img.jpg" alt="Descripción de la imagen 1"> -->
-        <img src="src/img1.jpg" alt="Descripción de la imagen 2">
+            <!-- <img src="src/img.jpg" alt="Descripción de la imagen 1"> -->
+            <img src="src/img1.jpg" alt="Descripción de la imagen 2">
     </div>
-    
     <div class="policies-container">
         <h2>POLÍTICAS DEL JUEGO</h2>
         <ol>
@@ -111,7 +101,6 @@ $result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
             </ul>
         </ol>
     </div>
-
     <script>
     $(document).ready(function() {
         function updateLabels(apuestaDiv, selectedOption) {
@@ -165,6 +154,22 @@ $result = $conn->query("SELECT * FROM partidos WHERE fecha = '$hoy'");
         // Actualizar etiquetas al cargar la página para la primera apuesta
         var initialSelectedOption = $('.partido').find('option:selected');
         updateLabels($('.apuesta'), initialSelectedOption);
+
+        $('#apuestas_form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: 'generate_pdf.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Apuesta generada');
+                    var url = 'generate_pdf.php?apuesta_ids=' + response;
+                    window.open(url, '_blank'); // Abrir en una nueva pestaña
+                    $('#apuestas_form')[0].reset();
+                    $('.apuesta').not(':first').remove();
+                }
+            });
+        });
     });
     </script>
 </body>

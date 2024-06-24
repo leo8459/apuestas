@@ -16,10 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare("INSERT INTO partidos (equipo_local, equipo_visitante, fecha) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $equipo_local, $equipo_visitante, $fecha);
         $stmt->execute();
-    } elseif (isset($_POST['generar_pdf_multiple'])) {
-        $apuesta_ids = $_POST['apuesta_id'];
-        header("Location: generate_pdf.php?apuesta_ids=" . implode(',', $apuesta_ids));
-        exit;
     }
 }
 ?>
@@ -30,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="background-image">
     <div class="header">
@@ -48,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
 
         <h2>Ver Apuestas</h2>
-        <form method="post" action="">
+        <form method="post" id="pdf_multiple_form">
             <table>
                 <thead>
                     <tr>
@@ -73,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <td><?= $row['apuesta_id'] ?></td>
                             <td><?= $row['nombre'] ?></td>
                             <td><?= $row['equipo_local'] ?> vs <?= $row['equipo_visitante'] ?></td>
-                            <td ><?= $row['prediccion_equipo1'] ?></td>
+                            <td><?= $row['prediccion_equipo1'] ?></td>
                             <td><?= $row['prediccion_equipo2'] ?></td>
                         </tr>
                     <?php endwhile; ?>
@@ -82,9 +79,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit" name="generar_pdf_multiple">Generar PDF para Seleccionados</button>
         </form>
 
+        <h2>Generar Reporte por Día</h2>
+        <form method="post" id="pdf_por_dia_form">
+            <label for="fecha_reporte">Fecha:</label>
+            <input type="date" id="fecha_reporte" name="fecha_reporte" required>
+            <button type="submit" name="generar_pdf_por_dia">Generar Reporte por Día</button>
+        </form>
+
         <div class="footer">
             <p>&copy; 2024 Apuestas de Fútbol</p>
         </div>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        $('#pdf_multiple_form').on('submit', function(e) {
+            e.preventDefault();
+            var apuesta_ids = [];
+            $('input[name="apuesta_id[]"]:checked').each(function() {
+                apuesta_ids.push($(this).val());
+            });
+            if (apuesta_ids.length > 0) {
+                var url = 'generate_pdf.php?apuesta_ids=' + apuesta_ids.join(',');
+                window.open(url, '_blank'); // Abrir en una nueva pestaña
+            } else {
+                alert('Por favor seleccione al menos una apuesta.');
+            }
+        });
+
+        $('#pdf_por_dia_form').on('submit', function(e) {
+            e.preventDefault();
+            var fecha_reporte = $('#fecha_reporte').val();
+            if (fecha_reporte) {
+                var url = 'generate_pdf_by_date.php?fecha=' + fecha_reporte;
+                window.open(url, '_blank'); // Abrir en una nueva pestaña
+            } else {
+                alert('Por favor seleccione una fecha.');
+            }
+        });
+    });
+    </script>
 </body>
 </html>
