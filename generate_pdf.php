@@ -36,12 +36,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $partido_stmt->fetch();
         $partido_stmt->close();
 
+        // Obtener la fecha de creación de la apuesta
+        $fecha_stmt = $conn->prepare("SELECT fecha FROM apuestas WHERE id = ?");
+        $fecha_stmt->bind_param("i", $apuesta_id);
+        $fecha_stmt->execute();
+        $fecha_stmt->bind_result($fecha_creacion);
+        $fecha_stmt->fetch();
+        $fecha_stmt->close();
+
         $apuestas[] = [
             'apuesta_id' => $apuesta_id,
             'equipo_local' => $equipo_local,
             'equipo_visitante' => $equipo_visitante,
             'prediccion_equipo1' => $prediccion_equipo1,
             'prediccion_equipo2' => $prediccion_equipo2,
+            'fecha_creacion' => $fecha_creacion
         ];
 
         // Reset monto to 0 after the first iteration
@@ -59,19 +68,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdf->AddPage();
     $pdf->SetFont('helvetica', '', 12);
 
-
     $html = "<h1>Ficha de Apuesta</h1>";
     $html .= "<p><strong>Usuario:</strong> $usuario_nombre</p>";
     $html .= "<p><strong>Monto Total:</strong> Bs$total_monto</p>";
 
+    $html .= "<table border=\"1\" cellpadding=\"4\">
+                <tr>";
+
     foreach ($apuestas as $apuesta) {
         $html .= "
-            <p><strong>ID de Apuesta:</strong> {$apuesta['apuesta_id']}</p>
-            <p><strong>Partido:</strong> {$apuesta['equipo_local']} vs {$apuesta['equipo_visitante']}</p>
-            <p><strong>Predicción:</strong> {$apuesta['equipo_local']} {$apuesta['prediccion_equipo1']} - {$apuesta['prediccion_equipo2']} {$apuesta['equipo_visitante']}</p>
-            <hr>
+                <td>
+                    <p><strong>ID de Apuesta:</strong> {$apuesta['apuesta_id']}</p>
+                    <p><strong>Partido:</strong> {$apuesta['equipo_local']} vs {$apuesta['equipo_visitante']}</p>
+                    <p><strong>Predicción:</strong> {$apuesta['equipo_local']} {$apuesta['prediccion_equipo1']} - {$apuesta['prediccion_equipo2']} {$apuesta['equipo_visitante']}</p>
+                    <p><strong>Fecha:</strong> {$apuesta['fecha_creacion']}</p>
+                </td>
         ";
     }
+
+    $html .= "</tr></table>";
 
     $pdf->writeHTML($html, true, false, true, false, '');
     $pdf->Output('ficha_apuesta.pdf', 'D');
@@ -84,14 +99,14 @@ if (isset($_GET['apuesta_ids'])) {
     $apuestas = [];
     $total_monto = 0;
     foreach ($apuesta_ids as $index => $apuesta_id) {
-        $apuesta_stmt = $conn->prepare("SELECT apuestas.id as apuesta_id, usuarios.nombre, partidos.equipo_local, partidos.equipo_visitante, apuestas.prediccion_equipo1, apuestas.prediccion_equipo2, apuestas.monto 
+        $apuesta_stmt = $conn->prepare("SELECT apuestas.id as apuesta_id, usuarios.nombre, partidos.equipo_local, partidos.equipo_visitante, apuestas.prediccion_equipo1, apuestas.prediccion_equipo2, apuestas.monto, apuestas.fecha 
                                         FROM apuestas 
                                         JOIN usuarios ON apuestas.usuario_id = usuarios.id 
                                         JOIN partidos ON apuestas.partido_id = partidos.id 
                                         WHERE apuestas.id = ?");
         $apuesta_stmt->bind_param("i", $apuesta_id);
         $apuesta_stmt->execute();
-        $apuesta_stmt->bind_result($apuesta_id, $usuario_nombre, $equipo_local, $equipo_visitante, $prediccion_equipo1, $prediccion_equipo2, $monto);
+        $apuesta_stmt->bind_result($apuesta_id, $usuario_nombre, $equipo_local, $equipo_visitante, $prediccion_equipo1, $prediccion_equipo2, $monto, $fecha_creacion);
         $apuesta_stmt->fetch();
         $apuesta_stmt->close();
 
@@ -107,6 +122,7 @@ if (isset($_GET['apuesta_ids'])) {
             'equipo_visitante' => $equipo_visitante,
             'prediccion_equipo1' => $prediccion_equipo1,
             'prediccion_equipo2' => $prediccion_equipo2,
+            'fecha_creacion' => $fecha_creacion
         ];
     }
 
@@ -114,20 +130,25 @@ if (isset($_GET['apuesta_ids'])) {
     $pdf->AddPage();
     $pdf->SetFont('helvetica', '', 12);
 
-    // Agregar imagen al PDF, en el costado derecho
-
     $html = "<h1>Ficha de Apuestas</h1>";
     $html .= "<p><strong>Monto Total:</strong> Bs$total_monto</p>";
 
+    $html .= "<table border=\"1\" cellpadding=\"4\">
+                <tr>";
+
     foreach ($apuestas as $apuesta) {
         $html .= "
-            <p><strong>ID de Apuesta:</strong> {$apuesta['apuesta_id']}</p>
-            <p><strong>Usuario:</strong> {$apuesta['usuario_nombre']}</p>
-            <p><strong>Partido:</strong> {$apuesta['equipo_local']} vs {$apuesta['equipo_visitante']}</p>
-            <p><strong>Predicción:</strong> {$apuesta['equipo_local']} {$apuesta['prediccion_equipo1']} - {$apuesta['prediccion_equipo2']} {$apuesta['equipo_visitante']}</p>
-            <hr>
+                <td>
+                    <p><strong>ID de Apuesta:</strong> {$apuesta['apuesta_id']}</p>
+                    <p><strong>Usuario:</strong> {$apuesta['usuario_nombre']}</p>
+                    <p><strong>Partido:</strong> {$apuesta['equipo_local']} vs {$apuesta['equipo_visitante']}</p>
+                    <p><strong>Predicción:</strong> {$apuesta['equipo_local']} {$apuesta['prediccion_equipo1']} - {$apuesta['prediccion_equipo2']} {$apuesta['equipo_visitante']}</p>
+                    <p><strong>Fecha:</strong> {$apuesta['fecha_creacion']}</p>
+                </td>
         ";
     }
+
+    $html .= "</tr></table>";
 
     $pdf->writeHTML($html, true, false, true, false, '');
     $pdf->Output('fichas_apuestas.pdf', 'D');
